@@ -147,7 +147,8 @@ namespace UnityAsyncAwaitUtil
         async Task RunWwwAsync()
         {
             Debug.Log("Downloading asset bundle using WWW");
-            var bytes = (await new WWW(AssetBundleSampleUrl)).bytes;
+            var request = (await new UnityWebRequest(AssetBundleSampleUrl));
+            var bytes = request.downloadHandler.data;
             Debug.Log("Downloaded " + (bytes.Length / 1024) + " kb");
         }
 
@@ -210,7 +211,7 @@ namespace UnityAsyncAwaitUtil
         async Task<byte[]> DownloadRawDataAsync(string url)
         {
             var request = UnityWebRequest.Get(url);
-            await request.Send();
+            await request.SendWebRequest();
             return request.downloadHandler.data;
         }
 
